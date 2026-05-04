@@ -52,7 +52,7 @@ export default function Story() {
           <div className="relative z-10 w-full h-full rounded-xl overflow-hidden shadow-2xl bg-[#f8f5f0] flex items-center justify-center">
             {/* Реальный тег img для максимальной совместимости */}
             <img 
-              src="https://storage.googleapis.com/pai-images/99066668706d48259f992388e36506d8.png"
+              src="h/Users/artem/Downloads/animated-wedding-website-glebilera/public/images/story-photo.jpg"
               alt="Глеб и Валерия"
               className="w-full h-full object-cover transition-opacity duration-500 opacity-0"
               onLoad={(e) => {
