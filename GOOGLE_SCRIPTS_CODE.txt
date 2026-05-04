@@ -1,0 +1,77 @@
+/**
+ * 📋 СКРИПТ ДЛЯ GOOGLE ТАБЛИЦЫ
+ * 
+ * Ваша таблица: https://docs.google.com/spreadsheets/d/1NotdK4asqLtVJHcvbgUhzW7SLb3VWM4fD0o2thExGk8/edit
+ * 
+ * ИНСТРУКЦИЯ:
+ * 1. Откройте таблицу
+ * 2. Extensions → Apps Script
+ * 3. Вставьте этот код
+ * 4. Сохраните (Ctrl+S)
+ * 5. Deploy → New deployment
+ * 6. Нажмите ⚙️ → New app → Web app
+ * 7. Execute as: Me, Who has access: Anyone
+ * 8. Deploy → скопируйте URL
+ * 9. Вставьте URL в src/config.ts
+ */
+
+function doPost(e) {
+  try {
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    var data = JSON.parse(e.postData.contents);
+    
+    // Добавляем строку с данными
+    sheet.appendRow([
+      new Date().toLocaleString("ru-RU"),  // Время ответа
+      data.name,                            // Имя гостя
+      data.attending,                       // Статус (Придёт/Не сможет)
+      data.guestCount,                      // Количество гостей
+      data.alcohol,                         // Предпочтения по напиткам
+      data.transfer,                        // Нужен ли трансфер
+      data.message                          // Пожелания
+    ]);
+    
+    return ContentService
+      .createTextOutput(JSON.stringify({status: 'success'}))
+      .setMimeType(ContentService.MimeType.JSON);
+      
+  } catch (error) {
+    return ContentService
+      .createTextOutput(JSON.stringify({status: 'error', message: error.toString()}))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+// Эта функция создаёт заголовки при первом запуске
+function setupHeaders() {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+  
+  // Устанавливаем заголовки
+  sheet.getRange("A1:G1").setValues([[
+    "📅 Время ответа",
+    "👤 Имя гостя", 
+    "✅ Статус",
+    "👥 Кол-во гостей",
+    "🍷 Напитки",
+    "🚗 Трансфер",
+    "💬 Пожелания"
+  ]]);
+  
+  // Форматируем заголовки
+  sheet.getRange("A1:G1")
+    .setFontWeight("bold")
+    .setBackground("#8C6D58")
+    .setFontColor("white")
+    .setHorizontalAlignment("center");
+  
+  // Устанавливаем ширину столбцов
+  sheet.setColumnWidth(1, 150);
+  sheet.setColumnWidth(2, 200);
+  sheet.setColumnWidth(3, 120);
+  sheet.setColumnWidth(4, 120);
+  sheet.setColumnWidth(5, 200);
+  sheet.setColumnWidth(6, 120);
+  sheet.setColumnWidth(7, 250);
+  
+  SpreadsheetApp.getUi().alert('✅ Заголовки созданы! Теперь вызовите функцию doPost для теста.');
+}
