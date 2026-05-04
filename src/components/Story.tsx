@@ -52,7 +52,7 @@ export default function Story() {
           <div className="relative z-10 w-full h-full rounded-xl overflow-hidden shadow-2xl bg-[#f8f5f0] flex items-center justify-center">
             {/* Реальный тег img для максимальной совместимости */}
             <img 
-              src="h/Users/artem/Downloads/animated-wedding-website-glebilera/public/images/story-photo.jpg"
+              src="/images/my-story-photo.jpg"
               alt="Глеб и Валерия"
               className="w-full h-full object-cover transition-opacity duration-500 opacity-0"
               onLoad={(e) => {
@@ -63,7 +63,7 @@ export default function Story() {
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
                 // Резервная копия на случай сбоя основного сервера
-                target.src = "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?q=80&w=2069&auto=format&fit=crop";
+                target.src = "/images/my-story-photo.jpg";
                 target.classList.remove('opacity-0');
                 target.classList.add('opacity-100');
               }}
